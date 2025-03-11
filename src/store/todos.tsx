@@ -16,9 +16,16 @@ interface TodosState {
 export const TodosContext = createContext<TodosState | null>(null);
 
 export const TodosProvider = ({ children }: { children: ReactNode }) => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-
+  const [todos, setTodos] = useState<Todo[]>(() => {
+    try {
+      const newTodos = localStorage.getItem("todos") || "[]";
+      return JSON.parse(newTodos) as Todo[];
+    } catch (error) {
+      return [];
+    }
+  });
   const handleAddToDo = (task: string) => {
+    if (!todos) return;
     setTodos((prev) => {
       const NewTodo: Todo[] = [
         {
@@ -29,6 +36,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
         },
         ...prev,
       ];
+      localStorage.setItem("todos", JSON.stringify(NewTodo));
       return NewTodo;
     });
   };
@@ -42,14 +50,18 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
             completed: !todo.completed,
           };
         }
+
         return todo;
       });
+      localStorage.setItem("todos", JSON.stringify(newTodos));
+
       return newTodos;
     });
   };
   const handlerDelete = (id: string) => {
     setTodos((prev) => {
       let newTodos = prev.filter((fitlerID) => fitlerID.id !== id);
+      localStorage.setItem("todos", JSON.stringify(newTodos));
       return newTodos;
     });
   };

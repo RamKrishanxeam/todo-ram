@@ -12,7 +12,7 @@ function AddToDo() {
     setNewToDo("");
   };
   return (
-    <>  
+    <>
       <form onSubmit={handleFormSubmit}>
         <input
           type="text"
@@ -20,7 +20,9 @@ function AddToDo() {
           onChange={(e) => setNewToDo(e.target.value)}
           value={newToDo}
         />
-        <button type="submit">Add</button>
+        <button type="submit" disabled={!newToDo}>
+          Add
+        </button>
       </form>
     </>
   );
