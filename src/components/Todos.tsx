@@ -10,8 +10,6 @@ const Todos = () => {
     <div>
       <ul className="main-task">
         {filterData.map((todo, index) => {
-          console.log(todo.id, "todo.id");
-
           return (
             <li key={index}>
               <input
