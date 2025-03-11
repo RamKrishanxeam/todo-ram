@@ -12,7 +12,7 @@ function AddToDo() {
     setNewToDo("");
   };
   return (
-    <>
+    <>  
       <form onSubmit={handleFormSubmit}>
         <input
           type="text"
