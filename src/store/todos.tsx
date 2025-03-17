@@ -8,7 +8,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useEffect, useRef, useState } from "react";
 import { db } from "../firebas/firebase";
 
 interface Todo {
@@ -30,13 +30,16 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const user = localStorage.getItem("user");
   const userObj = JSON.parse(user!);
+  const unsubscribeRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    if (!userObj) {
+    if (!userObj?.uid) {
       console.error("User not authenticated");
       return;
     }
-
+    if (unsubscribeRef.current) {
+      unsubscribeRef.current();
+    }
     const q = query(
       collection(db, "todos"),
       where("userId", "==", userObj.uid)
@@ -51,7 +54,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
     console.log("filterData");
 
     return () => unsubscribe();
-  }, []);
+  }, [userObj?.uid]);
 
   const handleAddToDo = async (task: string) => {
     if (!todos) return;
