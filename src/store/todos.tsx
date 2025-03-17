@@ -30,7 +30,6 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const user = localStorage.getItem("user");
   const userObj = JSON.parse(user!);
-  console.log(userObj, "userObj");
 
   useEffect(() => {
     if (!userObj) {
@@ -49,9 +48,10 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
       });
       setTodos(fetchedTodos);
     });
+    console.log("filterData");
 
     return () => unsubscribe();
-  }, [userObj]);
+  }, []);
 
   const handleAddToDo = async (task: string) => {
     if (!todos) return;

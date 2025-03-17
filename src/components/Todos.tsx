@@ -16,6 +16,7 @@ const Todos = () => {
   if (todos̥Data === "completed") {
     filterData = filterData.filter((task) => task.completed);
   }
+  // console.log(filterData, "filterData");
 
   return (
     <div>
