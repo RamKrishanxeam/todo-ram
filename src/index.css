@@ -79,7 +79,7 @@ nav a.active {
 form input {
   border: 0.1rem solid #ccc;
   border-radius: 0.3rem;
-  width: 45rem;
+  width: 70rem;
   margin: 4rem 0;
   user-focus: none;
   padding: 0.6rem 1rem;
@@ -112,9 +112,9 @@ label {
 
 .main-task li {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   align-items: center;
-  width: 50rem;
+  width: 80rem;
   min-height: 6rem;
   border-bottom: 0.1rem solid #ccc;
 }

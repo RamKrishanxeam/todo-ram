@@ -31,8 +31,8 @@ function Home() {
           </span>
         </div>
         <div className="w-full h-full flex flex-col items-center justify-center py-10">
-          <h1 className="text-[22px] mb-5 font-semibold">
-            TODO REACT + TYPESCRIPT
+          <h1 className="text-[22px] mb-5 font-semibold uppercase">
+            TODO Task + List
           </h1>
           <Navbar />
           <AddToDo />

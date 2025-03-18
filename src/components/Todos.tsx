@@ -25,7 +25,7 @@ const Todos = () => {
             const date = new Date(todo.createdAt.seconds * 1000);
             const formattedDate = date.toLocaleString();
             return (
-              <ul>
+              <>
                 <li key={index}>
                   <input
                     type="checkbox"
@@ -36,6 +36,7 @@ const Todos = () => {
                   />
                   <label htmlFor={`todo-${todo.id}`}> {todo.task} </label>
 
+                  <label> {formattedDate} </label>
                   {todo.completed && (
                     <button
                       type="button"
@@ -45,8 +46,7 @@ const Todos = () => {
                     </button>
                   )}
                 </li>
-                {/* <label htmlFor={`todo-${todo.id}`}> {formattedDate} </label> */}
-              </ul>
+              </>
             );
           })
         ) : (
