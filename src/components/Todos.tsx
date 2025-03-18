@@ -22,7 +22,7 @@ const Todos = () => {
       <ul className="main-task">
         {filterData.length > 0 ? (
           filterData.map((todo, index) => {
-            const date = new Date(todo.createdAt.seconds * 1000);
+            const date = new Date((todo.createdAt as any).seconds * 1000);
             const formattedDate = date.toLocaleString();
             return (
               <>
