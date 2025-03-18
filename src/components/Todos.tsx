@@ -35,9 +35,8 @@ const Todos = () => {
                     readOnly
                   />
                   <label htmlFor={`todo-${todo.id}`}> {todo.task} </label>
-
                   <label> {formattedDate} </label>
-                  {todo.completed && (
+                   {todo.completed && (
                     <button
                       type="button"
                       onClick={() => handlerDelete(todo.id)}
