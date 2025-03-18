@@ -8,6 +8,7 @@ function Login() {
     if (response.user) {
       navigate("/");
       localStorage.setItem("user", JSON.stringify(response.user));
+      window.location.reload();
     }
   };
 

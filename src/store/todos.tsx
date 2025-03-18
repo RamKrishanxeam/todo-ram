@@ -33,27 +33,29 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const unsubscribeRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    if (!userObj?.uid) {
-      console.error("User not authenticated");
-      return;
-    }
-    if (unsubscribeRef.current) {
-      unsubscribeRef.current();
-    }
-    const q = query(
-      collection(db, "todos"),
-      where("userId", "==", userObj.uid)
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const fetchedTodos: Todo[] = snapshot.docs.map((doc) => {
-        const data = doc.data() as Omit<Todo, "id">;
-        return { id: doc.id, ...data };
+    try {
+      if (!userObj?.uid) {
+        console.error("User not authenticated");
+        return;
+      }
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+      }
+      const q = query(
+        collection(db, "todos"),
+        where("userId", "==", userObj.uid)
+      );
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const fetchedTodos: Todo[] = snapshot.docs.map((doc) => {
+          const data = doc.data() as Omit<Todo, "id">;
+          return { id: doc.id, ...data };
+        });
+        setTodos(fetchedTodos);
       });
-      setTodos(fetchedTodos);
-    });
-    console.log("filterData");
-
-    return () => unsubscribe();
+      return () => unsubscribe();
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+    }
   }, [userObj?.uid]);
 
   const handleAddToDo = async (task: string) => {
