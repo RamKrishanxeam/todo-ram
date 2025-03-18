@@ -16,30 +16,37 @@ const Todos = () => {
   if (todos̥Data === "completed") {
     filterData = filterData.filter((task) => task.completed);
   }
-  // console.log(filterData, "filterData");
 
   return (
     <div>
       <ul className="main-task">
         {filterData.length > 0 ? (
           filterData.map((todo, index) => {
+            const date = new Date(todo.createdAt.seconds * 1000);
+            const formattedDate = date.toLocaleString();
             return (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  id={`todo-${todo.id}`}
-                  checked={todo.completed}
-                  onChange={() => toggleTodoComplete(todo.id)}
-                  readOnly
-                />
-                <label htmlFor={`todo-${todo.id}`}> {todo.task} </label>
+              <ul>
+                <li key={index}>
+                  <input
+                    type="checkbox"
+                    id={`todo-${todo.id}`}
+                    checked={todo.completed}
+                    onChange={() => toggleTodoComplete(todo.id)}
+                    readOnly
+                  />
+                  <label htmlFor={`todo-${todo.id}`}> {todo.task} </label>
 
-                {todo.completed && (
-                  <button type="button" onClick={() => handlerDelete(todo.id)}>
-                    Delete
-                  </button>
-                )}
-              </li>
+                  {todo.completed && (
+                    <button
+                      type="button"
+                      onClick={() => handlerDelete(todo.id)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </li>
+                {/* <label htmlFor={`todo-${todo.id}`}> {formattedDate} </label> */}
+              </ul>
             );
           })
         ) : (
