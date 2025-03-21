@@ -25,27 +25,22 @@ const Todos = () => {
             const date = new Date((todo.createdAt as any).seconds * 1000);
             const formattedDate = date.toLocaleString();
             return (
-              <>
-                <li key={index}>
-                  <input
-                    type="checkbox"
-                    id={`todo-${todo.id}`}
-                    checked={todo.completed}
-                    onChange={() => toggleTodoComplete(todo.id)}
-                    readOnly
-                  />
-                  <label htmlFor={`todo-${todo.id}`}> {todo.task} </label>
-                  <label> {formattedDate} </label>
-                   {todo.completed && (
-                    <button
-                      type="button"
-                      onClick={() => handlerDelete(todo.id)}
-                    >
-                      Delete
-                    </button>
-                  )}
-                </li>
-              </>
+              <li key={index}>
+                <input
+                  type="checkbox"
+                  id={`todo-${todo.id}`}
+                  checked={todo.completed}
+                  onChange={() => toggleTodoComplete(todo.id)}
+                  readOnly
+                />
+                <label htmlFor={`todo-${todo.id}`}> {todo.task} </label>
+                <label> {formattedDate} </label>
+                {todo.completed && (
+                  <button type="button" onClick={() => handlerDelete(todo.id)}>
+                    Delete
+                  </button>
+                )}
+              </li>
             );
           })
         ) : (

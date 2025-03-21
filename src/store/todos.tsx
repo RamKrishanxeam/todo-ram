@@ -34,10 +34,6 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     try {
-      if (!userObj?.uid) {
-        console.error("User not authenticated");
-        return;
-      }
       if (unsubscribeRef.current) {
         unsubscribeRef.current();
       }
@@ -56,7 +52,8 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error("Error fetching todos:", error);
     }
-  }, [userObj?.uid]);
+    console.log("User object:", userObj);
+  }, [userObj]);
 
   const handleAddToDo = async (task: string) => {
     if (!todos) return;
