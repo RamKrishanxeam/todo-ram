@@ -19,6 +19,7 @@ interface Todo {
 }
 interface TodosState {
   todos: Todo[];
+  loader: boolean;
   handleAddToDo(task: string): void;
   toggleTodoComplete(id: string): void;
   handlerDelete(id: string): void;
@@ -28,12 +29,14 @@ export const TodosContext = createContext<TodosState | null>(null);
 
 export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [loader, setLoader] = useState<boolean>(false);
   const user = localStorage.getItem("user");
   const userObj = JSON.parse(user!);
   const unsubscribeRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     try {
+      setLoader(true);
       if (unsubscribeRef.current) {
         unsubscribeRef.current();
       }
@@ -47,13 +50,15 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
           return { id: doc.id, ...data };
         });
         setTodos(fetchedTodos);
+        setLoader(false);
       });
       return () => unsubscribe();
     } catch (error) {
+      setLoader(false);
       console.error("Error fetching todos:", error);
     }
     console.log("User object:", userObj);
-  }, [userObj]);
+  }, []);
 
   const handleAddToDo = async (task: string) => {
     if (!todos) return;
@@ -73,7 +78,7 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
       const docRef = await addDoc(collection(db, "todos"), newTodo);
 
       setTodos((prev) => [{ id: docRef.id, ...newTodo }, ...prev]);
-
+      window.location.reload();
       console.log("Todo added with ID:", docRef.id);
     } catch (error) {
       console.error("Error adding todo:", error);
@@ -114,7 +119,13 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <TodosContext.Provider
-      value={{ todos, handleAddToDo, toggleTodoComplete, handlerDelete }}
+      value={{
+        todos,
+        loader,
+        handleAddToDo,
+        toggleTodoComplete,
+        handlerDelete,
+      }}
     >
       {children}
     </TodosContext.Provider>
